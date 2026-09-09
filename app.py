@@ -13,12 +13,15 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Photoroom-grade edge precision
-session = new_session("birefnet-general")
+# isnet-general-use: E-commerce aur fine edges ke liye studio quality model
+session = new_session("isnet-general-use")
+
+@app.get("/")
+def home():
+    return {"status": "running"}
 
 @app.post("/remove-bg")
 async def remove_bg(file: UploadFile = File(...)):
     input_bytes = await file.read()
     output_bytes = remove(input_bytes, session=session)
     return Response(content=output_bytes, media_type="image/png")
-  
